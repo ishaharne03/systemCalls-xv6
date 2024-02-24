@@ -7,6 +7,7 @@
 #include "mmu.h"
 #include "proc.h"
 
+
 int
 sys_fork(void)
 {
@@ -98,4 +99,24 @@ int sys_shutdown(void)
 
   return 0;
   
+}
+int 
+sys_set_proc_name(void){
+  int pid;
+  char *name;
+  if (argint(0, &pid) < 0)
+    return -1;
+  if(argstr(1, &name) < 0)
+    return -1;
+  return set_proc_name(pid,name);
+}
+int
+sys_print_proc_ancestors(void)
+{
+  int pid;
+
+  if (argint(0, &pid) < 0)
+    return -1;
+
+  return print_proc_ancestors(pid);
 }

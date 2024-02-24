@@ -6,7 +6,7 @@
 #include "x86.h"
 #include "proc.h"
 #include "spinlock.h"
-
+//#include <string.h>
 struct {
   struct spinlock lock;
   struct proc proc[NPROC];
@@ -539,4 +539,51 @@ procdump(void)
     }
     cprintf("\n");
   }
+}
+int 
+set_proc_name(int pid, char *new_name){
+  int found = 0;
+  struct proc *p;
+  acquire(&ptable.lock);
+	for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+	  if(p->pid == pid){
+      found = 1;
+      safestrcpy(p->name, new_name , sizeof(p->name));
+			break;
+		}
+	}
+  release(&ptable.lock);
+  if (found)
+    return 0; 
+  else
+    return -1;
+}
+
+int
+print_proc_ancestors(int pid)
+{
+  struct proc *p;
+  int found = 0;
+
+  acquire(&ptable.lock);
+
+  for (p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
+    if (p->pid == pid) {
+      found = 1;
+        while (p != 0) {
+          cprintf("%s", p->name); // Print the name of the ancestor process
+          if(p->parent != 0) cprintf(" <== ");
+          p = p->parent;
+        }
+        cprintf("\n");
+      break;
+    }
+  }
+
+  release(&ptable.lock);
+
+  if (found)
+    return 0; 
+  else
+    return -1; 
 }

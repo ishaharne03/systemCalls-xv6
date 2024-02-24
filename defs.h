@@ -120,6 +120,8 @@ void            userinit(void);
 int             wait(void);
 void            wakeup(void*);
 void            yield(void);
+int             set_proc_name(int pid, char *name);
+int             print_proc_ancestors(int pid);
 
 // swtch.S
 void            swtch(struct context**, struct context*);

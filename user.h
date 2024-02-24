@@ -24,7 +24,8 @@ char* sbrk(int);
 int sleep(int);
 int uptime(void);
 int shutdown(void);
-
+int set_proc_name(int pid, char *name);
+int print_proc_ancestors(int pid);
 
 
 // ulib.c

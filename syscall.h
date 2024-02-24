@@ -21,3 +21,5 @@
 #define SYS_mkdir  20
 #define SYS_close  21
 #define SYS_shutdown     22
+#define SYS_set_proc_name 23
+#define SYS_print_proc_ancestors 24
